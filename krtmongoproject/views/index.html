@@ -1,0 +1,251 @@
+<html>
+<head>
+<title>The Urban Spoon</title>
+<link type="text/css" href = "css/style.css" rel ="stylesheet">
+
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+<style>
+ body{
+    margin-top:20px;
+    background-image:url("images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  
+  }
+
+  h1{
+    font-size:60px;
+    font-family:Georgia, serif;
+    font-style:italic;
+    }
+ #parentDiv{
+  margin: 0 20%;
+  padding-top:2%;
+    font-weight:bold;
+  font-size:15px;
+  color:#010E47;
+  }
+  #errorMsg{
+  padding-left:20%;
+  font-family:Verdana, Geneva, sans-serif;
+  }
+  #docLink{
+     color:red;
+  }
+  .pagination {
+    display:none;
+    text-align: right;
+  padding-top: 22%;
+    padding-right: 50%;
+  }
+  .pagination a {
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      background-color :#EE5969;
+      border: 1px solid #EE5969;
+  }
+
+  .pagination a.active {
+      background-color: #EE5969;
+      color: white;
+      border: 1px solid #EE5969;
+  }
+  #searchBtn{
+  height:34px;
+  }
+
+  .pagination a:hover:not(.active) {background-color: #FDF3F4; color:black; border: 1px solid #FDF3F4;}
+</style>
+
+<script src="js/script.js" type="text/js"></script>
+<script async="true">
+var c_latitude;
+var c_longitude;
+window.onload = function displayRestaurants() {
+    var  searchParam="all";
+    var parentDiv = document.getElementById('parentDiv');  
+    var paginationTag = document.getElementById('paginationId'); 
+
+  $('#searchBtn').click(() => {
+    var requestURL;
+    while(parentDiv.hasChildNodes()){
+        console.log("has child nodes");
+        parentDiv.removeChild(parentDiv.firstChild);
+    }
+    var searchText = document.getElementById('searchText').value;
+    if(searchParam == "NearBy"){
+        if(c_longitude!=0 && c_latitude!=0){
+          requestURL = '/getRestaurantsByLocation?'+'searchText='+searchText+'&longitude='+c_longitude+'&latitude='+c_latitude;
+        }else{
+          alert("Couldn't get the current location");
+        }
+    }else if(searchText == null || searchText.length == 0){
+        return;
+    }else{
+        requestURL= '/restaurants'+'?searchParam='+searchParam +'&searchText='+searchText;
+    }
+    console.log('making ajax request to:', requestURL);
+
+    // using ajax to load the restaurants based on search
+     $.ajax({
+      // all URLs are relative to http://localhost:3000/
+           url: requestURL,
+           type: 'GET',
+           dataType : 'json', // this URL returns data in JSON format
+           success: (data) => {
+              var max_size=data.length;
+              console.log("data length"+max_size);
+              if(max_size == 0){
+                  $("#paginationId").hide();
+                  var h2Tag = document.createElement('h3');
+                  h2Tag.setAttribute("id","errorMsg");
+                  h2Tag.setAttribute("id","errorMsg");
+                  var h2Text = document.createTextNode("Your search -"+searchText+"- did not match any documents.");
+                  h2Tag.appendChild(h2Text);
+                  parentDiv.appendChild(h2Tag);
+                  document.body.appendChild(parentDiv);
+                  return;
+               } 
+             //pagination logic
+             var elements_per_page = 12;
+             var sta = 0, limit=elements_per_page;
+              if(max_size > elements_per_page){
+                    $("#paginationId").show();
+              }else{
+                    $("#paginationId").hide();
+                    limit  = max_size;
+              }
+               goFun(sta,limit);
+               function goFun(sta,limit) {
+                    for (var i =sta ; i < limit; i++) {
+                      if(data[i] == null){
+                        return;
+                      }
+                      var divTag = document.createElement('div');
+                      divTag.setAttribute('class',"dropdown col-md-6 col-sm-4 col-xs-6");       
+                      var createA = document.createElement('a');
+                      createA.setAttribute('id',"docLink");
+                      createA.onclick = clearSearch;
+                      console.log(data[i]["Restaurant ID"]);
+                      var createAText = document.createTextNode(data[i]["Restaurant Name"]);                    
+                      createA.setAttribute('href', "/getRestaurantById"+"?Restaurant ID="+data[i]["Restaurant ID"]); 
+                      createA.appendChild(createAText);
+                      var brTag = document.createElement('br');
+                      var pTag = document.createElement('p');
+                      var createPText = document.createTextNode(data[i]["Address"]);
+                      pTag.appendChild(createPText);
+                      divTag.appendChild(createA);
+                      divTag.appendChild(brTag);
+                      divTag.appendChild(pTag);
+                      parentDiv.appendChild(divTag);
+                    }
+                  document.body.appendChild(parentDiv);
+                  document.body.appendChild(paginationTag);
+              }
+                $('#nextValue').unbind("click").click(function(){
+                  //count=count+1;
+                  console.log("clicking next button");
+                  var next = limit;
+                  if(next < max_size) {
+                    limit = limit+elements_per_page;
+                    //clearing parentdiv tag
+                    while(parentDiv.hasChildNodes()){
+                        console.log("has child nodes");
+                        parentDiv.removeChild(parentDiv.firstChild);
+                    }
+                    console.log("start and limit values"+ next + limit + "start data value "+ data[next]["Restaurant Name"]);
+                    goFun(next,limit);
+                  }
+                });
+                $('#preValue').unbind("click").click(function(){
+                    console.log("clicking previous button");
+                    var pre = limit-(2*elements_per_page);
+                    if(pre>=0) {
+                      limit = limit-elements_per_page;
+                       while(parentDiv.hasChildNodes()){
+                            console.log("has child nodes");
+                            parentDiv.removeChild(parentDiv.firstChild);
+                        }
+                      console.log("start and limit values"+ pre + limit + "start data value "+ data[pre]["Restaurant Name"]);
+                      goFun(pre,limit); 
+                    }
+                });
+           },
+          error: function(data)
+          {
+            console.log(data);
+          } 
+      });
+      function clearSearch(){
+        document.getElementById('searchText').value='';
+      }
+    });
+    // search panel drop-down list
+    $('.search-panel .dropdown-menu').find('a').click(function(e) {
+      e.preventDefault();
+      var param = $(this).attr("href").replace("#","");
+      searchParam = param;
+      console.log("param is"+param);
+      var concept = $(this).text();
+      $('.search-panel span#search_concept').text(concept);
+      $('.input-group #search_param').val(param);
+    });
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+       alert("Geolocation is not supported by this browser.");
+    }
+    function showPosition(position) {
+        c_latitude =  position.coords.latitude;
+        c_longitude = position.coords.longitude;
+    }
+	
+  }
+  </script>
+</head>
+<body>
+	<center>
+	<h1>The UrbanSpoon</h1>
+	</center>
+	<div class="container">
+    <div class="row">    
+        <div class="col-xs-8 col-xs-offset-2">
+		    <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span id="search_concept">Filter by</span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#all">All</a></li>
+					            <li class="divider"></li>
+                      <li><a href="#Restaurant Name">Restaurant Name</a></li>
+                      <li><a href="#Country">Country</a></li>
+                      <li><a href="#City">City</a></li>
+                      <li><a href="#Cuisines">Cuisines</a></li>
+                      <li><a href="#NearBy">Near By</a></li>
+                    </ul>
+                </div>
+                <input type="hidden" name="search_param" value="all" id="search_param">         
+                <input type="text" class="form-control" id="searchText" name="x" placeholder="Search term...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="searchBtn" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </div>
+	</div>
+</div>
+<div id="parentDiv"></div>
+<div class="pagination" id="paginationId">
+    <a id="preValue" href="#">❮</a>
+    <a id="nextValue" href="#">❯</a>
+</div>
+</body>
+
+</html>
