@@ -1,6 +1,6 @@
 ## Restaurant Search Engine
 
-We developed a search engine for restaurants. The user can retrieve restaurant details by searching based on various filter types such as country, city, nearby restaurants, Cuisine types, etc.
+We developed a search engine for restaurants using the Zomato restaurants dataset at Kaggle. Handled large datasets using MongoDB and deployed the data onto mLab cloud. In this application, the user can make multiple search requests and filter his search by choosing one of the filter types such as country, nearby restaurants, Cuisine types, etc. Also implemented geospatial queries to show the nearby restaurants and integrating with googleMaps API to show the location of the restaurant.  Tech Stack: <MongoDB (mLab), NodeJS, HTML, JavaScript/>
 
 ### Requirements
 
