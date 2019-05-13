@@ -29,7 +29,7 @@ mongodb://localhost:27017/gridfs
 ```
 	
 ### Steps to run:
-Clone the repository and change to the directory to the repository
+Clone the repository and change directory to the cloned repository.
 ```
 git clone https://github.com/ks4049/Restaurants-Search-Engine.git
 cd Restaurants-Search-Engine
