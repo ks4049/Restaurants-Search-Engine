@@ -1,32 +1,52 @@
+## Restaurant Search Engine
 
-Step 1: Install NodeJS in the system
+We developed a search engine for restaurants. The user can retrieve restaurant details by searching based on various filter types such as country, city, nearby restaurants, Cuisine types, etc.
+
+### Requirements
+
+- Install Node on your system using the following command for MacOS:
+```
+brew install node
+```
+- Type in the following command in Terminal to check the Node and NPM version
+```
+node -v
+npm -v
+```
+
+- Set Url in the server.js file as follows:
+
+#### To connect to the mLab cloud database service:
+```
+mongodb://ks4049:project123@ds227332.mlab.com:27332/project"
+mongodb://ks4049:project123@ds157493.mlab.com:57493/gridfs"
+```
+OR
+#### To connect to the local mongo data:
+```
+mongodb://localhost:27017/project
+mongodb://localhost:27017/gridfs
+```
 	
-Step 2: Install the required npm packages:
-	1. npm install express
-	2. npm install body-parser
-	3. npm install ejs-lint
-	4. npm install mongodb
-	5. npm install mongoose
-	6. npm install grids-stream
-	7. npm install base64-stream
+### Steps to run:
+Clone the repository and change to the directory to the repository
+```
+git clone https://github.com/ks4049/Restaurants-Search-Engine.git
+cd Restaurants-Search-Engine
+```
+Install the dependencies required for the application.
+```
+npm install
+```
+The above command installs all the dependencies required for the application.
 
-Step 3: Set Url in the server.js file as follows:
+#### Command to run the server:
+```
+node server.js
+```
 
-	To connect to the mLab cloud database service:
-	mongodb://ks4049:project123@ds227332.mlab.com:27332/project"
-	mongodb://ks4049:project123@ds157493.mlab.com:57493/gridfs"
-		
-	OR
-
-	To connect to the local mongo data:
-	mongodb://localhost:27017/project
-	mongodb://localhost:27017/gridfs
-	
-Step 4: Go into the "krtmongoproject" directory in the command prompt
-	
-Step 5: Run the server.js file with following command
-	node server.js
-
-Step 6: Open the browser and enter the url as "localhost:3000"
-
+#### Command to run the application:
+```
+localhost:3000
+```
 
