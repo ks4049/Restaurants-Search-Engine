@@ -46,7 +46,7 @@ The above command installs all the dependencies required for the application.
 node server.js
 ```
 
-#### Command to run the application:
+#### Command to run the application on your local machine:
 ```
 localhost:3000
 ```
