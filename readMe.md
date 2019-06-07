@@ -44,7 +44,7 @@ The above command installs all the dependencies required for the application.
 
 #### Command to run the server:
 ```
-node server.js
+npm start
 ```
 
 #### Command to run the application on your local machine:
