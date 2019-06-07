@@ -40,7 +40,6 @@ Install the dependencies required for the application.
 ```
 npm install
 ```
-The above command installs all the dependencies required for the application.
 
 #### Command to run the server:
 ```
