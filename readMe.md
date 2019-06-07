@@ -24,6 +24,7 @@ mongodb://ks4049:project123@ds157493.mlab.com:57493/gridfs"
 ```
 OR
 #### To connect to the local mongo data:
+Import the data folder to your local mongo server.
 ```
 mongodb://localhost:27017/project
 mongodb://localhost:27017/gridfs
@@ -33,7 +34,7 @@ mongodb://localhost:27017/gridfs
 Clone the repository and change directory to the cloned repository.
 ```
 git clone https://github.com/ks4049/Restaurants-Search-Engine.git
-cd Restaurants-Search-Engine
+cd Restaurants-Search-Engine/krtmongoproject
 ```
 Install the dependencies required for the application.
 ```
