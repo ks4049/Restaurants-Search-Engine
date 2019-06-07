@@ -1,13 +1,17 @@
 {
   "name": "krtmongoproject",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Restaurant Search Engine",
+  "main": "server.js",
   "scripts": {
-    "start":"node index.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "manali",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ks4049/Restaurants-Search-Engine.git"
+  },
+  "author": "Khavya Seshadri",
   "license": "ISC",
   "dependencies": {
     "base64-stream": "1.0.0",
