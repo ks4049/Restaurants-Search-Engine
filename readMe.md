@@ -19,8 +19,8 @@ npm -v
 
 #### To connect to the mLab cloud database service:
 ```
-mongodb://ks4049:project123@ds227332.mlab.com:27332/project"
-mongodb://ks4049:project123@ds157493.mlab.com:57493/gridfs"
+mongodb+srv://<username>:<password>@<cluster-host>/<database>?retryWrites=true&w=majority
+
 ```
 OR
 #### To connect to the local mongo data:
